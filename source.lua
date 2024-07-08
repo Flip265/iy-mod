@@ -10688,10 +10688,11 @@ local PromptButtonHoldBegan = nil
 addcmd('instantproximityprompts',{'instantpp'},function(args, speaker)
 	if fireproximityprompt then
 		execCmd("uninstantproximityprompts")
-		wait(0.1)
-		PromptButtonHoldBegan = ProximityPromptService.PromptButtonHoldBegan:Connect(function(prompt)
-			fireproximityprompt(prompt)
-		end)
+		for i,v in ipairs(game:GetService("Workspace"):GetDescendants()) do
+ if v.ClassName == "ProximityPrompt" then
+  v.HoldDuration = 0
+ end
+end
 	else
 		notify('Incompatible Exploit','Your exploit does not support this command (missing fireproximityprompt)')
 	end
