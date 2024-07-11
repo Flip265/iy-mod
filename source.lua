@@ -4527,6 +4527,7 @@ CMDs[#CMDs + 1] = {NAME = 'fireproximityprompts / firepp [name]', DESC = 'Uses a
 CMDs[#CMDs + 1] = {NAME = 'instantproximityprompts / instantpp', DESC = 'Disable the cooldown for proximity prompts'}
 CMDs[#CMDs + 1] = {NAME = 'uninstantproximityprompts / uninstantpp', DESC = 'Undo the cooldown removal'}
 CMDs[#CMDs + 1] = {NAME = 'allpp / allproximity', DESC = 'Enable all proximity prompt'}
+CMDs[#CMDs + 1] = {NAME = 'allseat / aseat', DESC = 'Enable all seats'}
 CMDs[#CMDs + 1] = {NAME = 'tpunanchored / tpua [player]', DESC = 'Teleports unanchored parts to a player'}
 CMDs[#CMDs + 1] = {NAME = 'animsunanchored / freezeua', DESC = 'Freezes unanchored parts'}
 CMDs[#CMDs + 1] = {NAME = 'thawunanchored / thawua / unfreezeua', DESC = 'Thaws unanchored parts'}
@@ -10711,12 +10712,22 @@ addcmd('allproximity',{'allpp'},function(args, speaker)
 		execCmd("uninstantproximityprompts")
 		for i,v in ipairs(game:GetService("Workspace"):GetDescendants()) do
  if v.ClassName == "ProximityPrompt" then
-  v.Enable = true
+  v.Enabled = true
+print("All Proximity Enabled")
  end
 end
 	else
 		notify('Incompatible Exploit','Your exploit does not support this command (missing fireproximityprompt)')
 	end
+end)
+
+addcmd('allseat',{'aseat'},function(args, speaker)
+	for i,v in ipairs(game:GetService("Workspace"):GetDescendants()) do
+		if v.ClassName == "Seat" then
+		 v.Disabled = false
+print("All Seat Enabled")
+ end
+end
 end)
 
 
