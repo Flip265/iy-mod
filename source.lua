@@ -10706,7 +10706,6 @@ addcmd('uninstantproximityprompts',{'uninstantpp'},function(args, speaker)
 	end
 end)
 
-local PromptButtonHoldBegan = nil
 addcmd('allproximity',{'allpp'},function(args, speaker)
 	if fireproximityprompt then
 		execCmd("uninstantproximityprompts")
@@ -10714,6 +10713,10 @@ addcmd('allproximity',{'allpp'},function(args, speaker)
  if v.ClassName == "ProximityPrompt" then
   v.Enable = true
  end
+end
+	else
+		notify('Incompatible Exploit','Your exploit does not support this command (missing fireproximityprompt)')
+	end
 end)
 
 
