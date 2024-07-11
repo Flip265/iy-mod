@@ -4526,6 +4526,7 @@ CMDs[#CMDs + 1] = {NAME = 'noproximitypromptlimits / nopplimits', DESC = 'Sets a
 CMDs[#CMDs + 1] = {NAME = 'fireproximityprompts / firepp [name]', DESC = 'Uses all proximity prompts in a game or uses the optional name'}
 CMDs[#CMDs + 1] = {NAME = 'instantproximityprompts / instantpp', DESC = 'Disable the cooldown for proximity prompts'}
 CMDs[#CMDs + 1] = {NAME = 'uninstantproximityprompts / uninstantpp', DESC = 'Undo the cooldown removal'}
+CMDs[#CMDs + 1] = {NAME = 'allpp / allproximity', DESC = 'Enable all proximity prompt'}
 CMDs[#CMDs + 1] = {NAME = 'tpunanchored / tpua [player]', DESC = 'Teleports unanchored parts to a player'}
 CMDs[#CMDs + 1] = {NAME = 'animsunanchored / freezeua', DESC = 'Freezes unanchored parts'}
 CMDs[#CMDs + 1] = {NAME = 'thawunanchored / thawua / unfreezeua', DESC = 'Thaws unanchored parts'}
@@ -10704,6 +10705,17 @@ addcmd('uninstantproximityprompts',{'uninstantpp'},function(args, speaker)
 		PromptButtonHoldBegan = nil
 	end
 end)
+
+local PromptButtonHoldBegan = nil
+addcmd('allproximity',{'allpp'},function(args, speaker)
+	if fireproximityprompt then
+		execCmd("uninstantproximityprompts")
+		for i,v in ipairs(game:GetService("Workspace"):GetDescendants()) do
+ if v.ClassName == "ProximityPrompt" then
+  v.Enable = true
+ end
+end)
+
 
 addcmd('notifyping',{'ping'},function(args, speaker)
 	notify("Ping", math.round(speaker:GetNetworkPing() * 1000) .. "ms")
