@@ -1,5 +1,5 @@
 if IY_LOADED and not _G.IY_DEBUG == true then
-    -- error("Infinite Yield is already running!", 0)
+    -- error("Nigger Yield is already running!", 0)
     return
 end
 
@@ -12,12 +12,12 @@ Players = cloneref(game:GetService("Players"))
 if not game:IsLoaded() then
     local notLoaded = Instance.new("Message")
     notLoaded.Parent = COREGUI
-    notLoaded.Text = "Infinite Yield is waiting for the game to load"
+    notLoaded.Text = "Nigger Yield is waiting for the game to load"
     game.Loaded:Wait()
     notLoaded:Destroy()
 end
 
-currentVersion = "5.9.7"
+currentVersion = "6"
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -207,7 +207,7 @@ Title.BorderSizePixel = 0
 Title.Size = UDim2.new(0, 250, 0, 20)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 18
-Title.Text = "Infinite Yield FE v" .. currentVersion
+Title.Text = "Nigger Yield FE v" .. currentVersion
 
 do
 	local emoji = ({
@@ -1939,8 +1939,24 @@ PlaceId, JobId = game.PlaceId, game.JobId
 local IsOnMobile = table.find({Enum.Platform.IOS, Enum.Platform.Android}, UserInputService:GetPlatform())
 everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 
+local writefile = type(writefile) == "function" and function(file, data, safe)
+    if safe == true then return pcall(writefile, file, data) end
+    writefile(file, data)
+end
+
+local readfile = type(readfile) == "function" and function(file, safe)
+    if safe == true then return pcall(readfile, file) end
+    return readfile(file)
+end
+
 function writefileExploit()
 	if writefile then
+		return true
+	end
+end
+
+function readfileExploit()
+	if readfile then
 		return true
 	end
 end
@@ -2051,7 +2067,7 @@ function writefileCooldown(name,data)
 	task.spawn(function()
 		if not cooldown then
 			cooldown = true
-			writefile(name, data)
+			writefile(name, data, true)
 		else
 			repeat wait() until cooldown == false
 			writefileCooldown(name,data)
@@ -2826,220 +2842,156 @@ useFactorySettings = function()
     PluginsTable = {}
 end
 
+createPopup = function(text)
+    local FileError = Instance.new("Frame")
+    local background = Instance.new("Frame")
+    local Directions = Instance.new("TextLabel")
+    local shadow = Instance.new("Frame")
+    local PopupText = Instance.new("TextLabel")
+    local Exit = Instance.new("TextButton")
+    local ExitImage = Instance.new("ImageLabel")
+
+    FileError.Name = randomString()
+    FileError.Parent = PARENT
+    FileError.Active = true
+    FileError.BackgroundTransparency = 1
+    FileError.Position = UDim2.new(0.5, -180, 0, 290)
+    FileError.Size = UDim2.new(0, 360, 0, 20)
+    FileError.ZIndex = 10
+
+    background.Name = "background"
+    background.Parent = FileError
+    background.Active = true
+    background.BackgroundColor3 = Color3.fromRGB(36, 36, 37)
+    background.BorderSizePixel = 0
+    background.Position = UDim2.new(0, 0, 0, 20)
+    background.Size = UDim2.new(0, 360, 0, 205)
+    background.ZIndex = 10
+
+    Directions.Name = "Directions"
+    Directions.Parent = background
+    Directions.BackgroundTransparency = 1
+    Directions.BorderSizePixel = 0
+    Directions.Position = UDim2.new(0, 10, 0, 10)
+    Directions.Size = UDim2.new(0, 340, 0, 185)
+    Directions.Font = Enum.Font.SourceSans
+    Directions.TextSize = 14
+    Directions.Text = text
+    Directions.TextColor3 = Color3.new(1, 1, 1)
+    Directions.TextWrapped = true
+    Directions.TextXAlignment = Enum.TextXAlignment.Left
+    Directions.TextYAlignment = Enum.TextYAlignment.Top
+    Directions.ZIndex = 10
+
+    shadow.Name = "shadow"
+    shadow.Parent = FileError
+    shadow.BackgroundColor3 = Color3.fromRGB(46, 46, 47)
+    shadow.BorderSizePixel = 0
+    shadow.Size = UDim2.new(0, 360, 0, 20)
+    shadow.ZIndex = 10
+
+    PopupText.Name = "PopupText"
+    PopupText.Parent = shadow
+    PopupText.BackgroundTransparency = 1
+    PopupText.Size = UDim2.new(1, 0, 0.95, 0)
+    PopupText.ZIndex = 10
+    PopupText.Font = Enum.Font.SourceSans
+    PopupText.TextSize = 14
+    PopupText.Text = "File Error"
+    PopupText.TextColor3 = Color3.new(1, 1, 1)
+    PopupText.TextWrapped = true
+
+    Exit.Name = "Exit"
+    Exit.Parent = shadow
+    Exit.BackgroundTransparency = 1
+    Exit.Position = UDim2.new(1, -20, 0, 0)
+    Exit.Size = UDim2.new(0, 20, 0, 20)
+    Exit.Text = ""
+    Exit.ZIndex = 10
+
+    ExitImage.Parent = Exit
+    ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
+    ExitImage.BackgroundTransparency = 1
+    ExitImage.Position = UDim2.new(0, 5, 0, 5)
+    ExitImage.Size = UDim2.new(0, 10, 0, 10)
+    ExitImage.Image = "rbxassetid://5054663650"
+    ExitImage.ZIndex = 10
+
+    Exit.MouseButton1Click:Connect(function()
+        FileError:Destroy()
+    end)
+end
+
 local loadedEventData = nil
 local jsonAttempts = 0
 function saves()
-	if writefileExploit() and jsonAttempts < 50 then
-		if pcall(function() readfile("IY_FE.iy") end) then
-			if readfile("IY_FE.iy") ~= nil then
-				local success, response = pcall(function()
-					local json = HttpService:JSONDecode(readfile("IY_FE.iy"))
-					if json.prefix ~= nil then prefix = json.prefix else prefix = ';' end
-					if json.StayOpen ~= nil then StayOpen = json.StayOpen else StayOpen = false end
-					if json.keepIY ~= nil then KeepInfYield = json.keepIY else KeepInfYield = true end
-					if json.espTransparency ~= nil then espTransparency = json.espTransparency else espTransparency = 0.3 end
-					if json.logsEnabled ~= nil then logsEnabled = json.logsEnabled else logsEnabled = false end
-					if json.jLogsEnabled ~= nil then jLogsEnabled = json.jLogsEnabled else jLogsEnabled = false end
-					if json.aliases ~= nil then aliases = json.aliases else aliases = {} end
-					if json.binds ~= nil then binds = (json.binds or {}) else binds = {} end
-					if json.spawnCmds ~= nil then spawnCmds = json.spawnCmds end
-					if json.WayPoints ~= nil then AllWaypoints = json.WayPoints else WayPoints = {} AllWaypoints = {} end
-					if json.PluginsTable ~= nil then PluginsTable = json.PluginsTable else PluginsTable = {} end
-					if json.currentShade1 ~= nil then currentShade1 = Color3.new(json.currentShade1[1],json.currentShade1[2],json.currentShade1[3]) end
-					if json.currentShade2 ~= nil then currentShade2 = Color3.new(json.currentShade2[1],json.currentShade2[2],json.currentShade2[3]) end
-					if json.currentShade3 ~= nil then currentShade3 = Color3.new(json.currentShade3[1],json.currentShade3[2],json.currentShade3[3]) end
-					if json.currentText1 ~= nil then currentText1 = Color3.new(json.currentText1[1],json.currentText1[2],json.currentText1[3]) end
-					if json.currentText2 ~= nil then currentText2 = Color3.new(json.currentText2[1],json.currentText2[2],json.currentText2[3]) end
-					if json.currentScroll ~= nil then currentScroll = Color3.new(json.currentScroll[1],json.currentScroll[2],json.currentScroll[3]) end
-					if json.eventBinds ~= nil then loadedEventData = json.eventBinds end
-				end)
-				if not success then
-					jsonAttempts = jsonAttempts + 1
-					warn("Save Json Error:", response)
-					warn("Overwriting Save File")
-					writefileCooldown("IY_FE.iy", defaults)
-					wait()
-					saves()
-				end
-			else
-				writefileCooldown("IY_FE.iy", defaults)
-				wait()
-				saves()
-			end
-		else
-			writefileCooldown("IY_FE.iy", defaults)
-			wait()
-			if pcall(function() readfile("IY_FE.iy") end) then
-				saves()
-			else
-				nosaves = true
-				useFactorySettings()
-
-				local FileError = Instance.new("Frame")
-				local background = Instance.new("Frame")
-				local Directions = Instance.new("TextLabel")
-				local shadow = Instance.new("Frame")
-				local PopupText = Instance.new("TextLabel")
-				local Exit = Instance.new("TextButton")
-				local ExitImage = Instance.new("ImageLabel")
-
-				FileError.Name = randomString()
-				FileError.Parent = PARENT
-				FileError.Active = true
-				FileError.BackgroundTransparency = 1
-				FileError.Position = UDim2.new(0.5, -180, 0, 290)
-				FileError.Size = UDim2.new(0, 360, 0, 20)
-				FileError.ZIndex = 10
-
-				background.Name = "background"
-				background.Parent = FileError
-				background.Active = true
-				background.BackgroundColor3 = Color3.fromRGB(36, 36, 37)
-				background.BorderSizePixel = 0
-				background.Position = UDim2.new(0, 0, 0, 20)
-				background.Size = UDim2.new(0, 360, 0, 205)
-				background.ZIndex = 10
-
-				Directions.Name = "Directions"
-				Directions.Parent = background
-				Directions.BackgroundTransparency = 1
-				Directions.BorderSizePixel = 0
-				Directions.Position = UDim2.new(0, 10, 0, 10)
-				Directions.Size = UDim2.new(0, 340, 0, 185)
-				Directions.Font = Enum.Font.SourceSans
-				Directions.TextSize = 14
-				Directions.Text = "There was a problem writing a save file to your PC.\n\nPlease contact the developer/support team for your exploit and tell them writefile is not working.\n\nYour settings, keybinds, waypoints, and aliases will not save if you continue.\n\nThings to try:\n> Make sure a 'workspace' folder is located in the same folder as your exploit\n> If your exploit is inside of a zip/rar file, extract it.\n> Rejoin the game and try again or restart your PC and try again."
-				Directions.TextColor3 = Color3.new(1, 1, 1)
-				Directions.TextWrapped = true
-				Directions.TextXAlignment = Enum.TextXAlignment.Left
-				Directions.TextYAlignment = Enum.TextYAlignment.Top
-				Directions.ZIndex = 10
-
-				shadow.Name = "shadow"
-				shadow.Parent = FileError
-				shadow.BackgroundColor3 = Color3.fromRGB(46, 46, 47)
-				shadow.BorderSizePixel = 0
-				shadow.Size = UDim2.new(0, 360, 0, 20)
-				shadow.ZIndex = 10
-
-				PopupText.Name = "PopupText"
-				PopupText.Parent = shadow
-				PopupText.BackgroundTransparency = 1
-				PopupText.Size = UDim2.new(1, 0, 0.95, 0)
-				PopupText.ZIndex = 10
-				PopupText.Font = Enum.Font.SourceSans
-				PopupText.TextSize = 14
-				PopupText.Text = "File Error"
-				PopupText.TextColor3 = Color3.new(1, 1, 1)
-				PopupText.TextWrapped = true
-
-				Exit.Name = "Exit"
-				Exit.Parent = shadow
-				Exit.BackgroundTransparency = 1
-				Exit.Position = UDim2.new(1, -20, 0, 0)
-				Exit.Size = UDim2.new(0, 20, 0, 20)
-				Exit.Text = ""
-				Exit.ZIndex = 10
-
-				ExitImage.Parent = Exit
-				ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
-				ExitImage.BackgroundTransparency = 1
-				ExitImage.Position = UDim2.new(0, 5, 0, 5)
-				ExitImage.Size = UDim2.new(0, 10, 0, 10)
-				ExitImage.Image = "rbxassetid://5054663650"
-				ExitImage.ZIndex = 10
-
-				Exit.MouseButton1Click:Connect(function()
-					FileError:Destroy()
-				end)
-			end
-		end
-	else
-        if jsonAttempts >= 50 then
+    if writefileExploit() and readfileExploit() and jsonAttempts < 10 then
+        local readSuccess, out = readfile("IY_FE.iy", true)
+        if readSuccess then
+            if out ~= nil and tostring(out):gsub("%s", "") ~= "" then
+                local success, response = pcall(function()
+                    local json = HttpService:JSONDecode(out)
+                    if json.prefix ~= nil then prefix = json.prefix else prefix = ';' end
+                    if json.StayOpen ~= nil then StayOpen = json.StayOpen else StayOpen = false end
+                    if json.keepIY ~= nil then KeepInfYield = json.keepIY else KeepInfYield = true end
+                    if json.espTransparency ~= nil then espTransparency = json.espTransparency else espTransparency = 0.3 end
+                    if json.logsEnabled ~= nil then logsEnabled = json.logsEnabled else logsEnabled = false end
+                    if json.jLogsEnabled ~= nil then jLogsEnabled = json.jLogsEnabled else jLogsEnabled = false end
+                    if json.aliases ~= nil then aliases = json.aliases else aliases = {} end
+                    if json.binds ~= nil then binds = (json.binds or {}) else binds = {} end
+                    if json.spawnCmds ~= nil then spawnCmds = json.spawnCmds end
+                    if json.WayPoints ~= nil then AllWaypoints = json.WayPoints else WayPoints = {} AllWaypoints = {} end
+                    if json.PluginsTable ~= nil then PluginsTable = json.PluginsTable else PluginsTable = {} end
+                    if json.currentShade1 ~= nil then currentShade1 = Color3.new(json.currentShade1[1],json.currentShade1[2],json.currentShade1[3]) end
+                    if json.currentShade2 ~= nil then currentShade2 = Color3.new(json.currentShade2[1],json.currentShade2[2],json.currentShade2[3]) end
+                    if json.currentShade3 ~= nil then currentShade3 = Color3.new(json.currentShade3[1],json.currentShade3[2],json.currentShade3[3]) end
+                    if json.currentText1 ~= nil then currentText1 = Color3.new(json.currentText1[1],json.currentText1[2],json.currentText1[3]) end
+                    if json.currentText2 ~= nil then currentText2 = Color3.new(json.currentText2[1],json.currentText2[2],json.currentText2[3]) end
+                    if json.currentScroll ~= nil then currentScroll = Color3.new(json.currentScroll[1],json.currentScroll[2],json.currentScroll[3]) end
+                    if json.eventBinds ~= nil then loadedEventData = json.eventBinds end
+                end)
+                if not success then
+                    jsonAttempts = jsonAttempts + 1
+                    warn("Save Json Error:", response)
+                    warn("Overwriting Save File")
+                    writefile("IY_FE.iy", defaults, true)
+                    wait()
+                    saves()
+                end
+            else
+                writefile("IY_FE.iy", defaults, true)
+                wait()
+                local dReadSuccess, dOut = readfile("IY_FE.iy", true)
+                if dReadSuccess and dOut ~= nil and tostring(dOut):gsub("%s", "") ~= "" then
+                    saves()
+                else
+                    nosaves = true
+                    useFactorySettings()
+                    createPopup("There was a problem writing a save file to your PC.\n\nPlease contact the developer/support team for your exploit and tell them writefile/readfile is not working.\n\nYour settings, keybinds, waypoints, and aliases will not save if you continue.\n\nThings to try:\n> Make sure a 'workspace' folder is located in the same folder as your exploit\n> If your exploit is inside of a zip/rar file, extract it.\n> Rejoin the game and try again or restart your PC and try again.")
+                end
+            end
+        else
+            writefile("IY_FE.iy", defaults, true)
+            wait()
+            local dReadSuccess, dOut = readfile("IY_FE.iy", true)
+            if dReadSuccess and dOut ~= nil and tostring(dOut):gsub("%s", "") ~= "" then
+                saves()
+            else
+                nosaves = true
+                useFactorySettings()
+                createPopup("There was a problem writing a save file to your PC.\n\nPlease contact the developer/support team for your exploit and tell them writefile/readfile is not working.\n\nYour settings, keybinds, waypoints, and aliases will not save if you continue.\n\nThings to try:\n> Make sure a 'workspace' folder is located in the same folder as your exploit\n> If your exploit is inside of a zip/rar file, extract it.\n> Rejoin the game and try again or restart your PC and try again.")
+            end
+        end
+    else
+        if jsonAttempts >= 10 then
             nosaves = true
             useFactorySettings()
-
-            local FileError = Instance.new("Frame")
-            local background = Instance.new("Frame")
-            local Directions = Instance.new("TextLabel")
-            local shadow = Instance.new("Frame")
-            local PopupText = Instance.new("TextLabel")
-            local Exit = Instance.new("TextButton")
-            local ExitImage = Instance.new("ImageLabel")
-
-            FileError.Name = randomString()
-            FileError.Parent = PARENT
-            FileError.Active = true
-            FileError.BackgroundTransparency = 1
-            FileError.Position = UDim2.new(0.5, -180, 0, 290)
-            FileError.Size = UDim2.new(0, 360, 0, 20)
-            FileError.ZIndex = 10
-
-            background.Name = "background"
-            background.Parent = FileError
-            background.Active = true
-            background.BackgroundColor3 = Color3.fromRGB(36, 36, 37)
-            background.BorderSizePixel = 0
-            background.Position = UDim2.new(0, 0, 0, 20)
-            background.Size = UDim2.new(0, 360, 0, 205)
-            background.ZIndex = 10
-
-            Directions.Name = "Directions"
-            Directions.Parent = background
-            Directions.BackgroundTransparency = 1
-            Directions.BorderSizePixel = 0
-            Directions.Position = UDim2.new(0, 10, 0, 10)
-            Directions.Size = UDim2.new(0, 340, 0, 185)
-            Directions.Font = Enum.Font.SourceSans
-            Directions.TextSize = 14
-            Directions.Text = "Sorry, but we have attempted to parse your data, but it is unreadable!\n\nInfinite Yield is now using factory settings until your executor fixes its file system.\n\nYour data has not been deleted."
-            Directions.TextColor3 = Color3.new(1, 1, 1)
-            Directions.TextWrapped = true
-            Directions.TextXAlignment = Enum.TextXAlignment.Left
-            Directions.TextYAlignment = Enum.TextYAlignment.Top
-            Directions.ZIndex = 10
-
-            shadow.Name = "shadow"
-            shadow.Parent = FileError
-            shadow.BackgroundColor3 = Color3.fromRGB(46, 46, 47)
-            shadow.BorderSizePixel = 0
-            shadow.Size = UDim2.new(0, 360, 0, 20)
-            shadow.ZIndex = 10
-
-            PopupText.Name = "PopupText"
-            PopupText.Parent = shadow
-            PopupText.BackgroundTransparency = 1
-            PopupText.Size = UDim2.new(1, 0, 0.95, 0)
-            PopupText.ZIndex = 10
-            PopupText.Font = Enum.Font.SourceSans
-            PopupText.TextSize = 14
-            PopupText.Text = "File Error"
-            PopupText.TextColor3 = Color3.new(1, 1, 1)
-            PopupText.TextWrapped = true
-
-            Exit.Name = "Exit"
-            Exit.Parent = shadow
-            Exit.BackgroundTransparency = 1
-            Exit.Position = UDim2.new(1, -20, 0, 0)
-            Exit.Size = UDim2.new(0, 20, 0, 20)
-            Exit.Text = ""
-            Exit.ZIndex = 10
-
-            ExitImage.Parent = Exit
-            ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
-            ExitImage.BackgroundTransparency = 1
-            ExitImage.Position = UDim2.new(0, 5, 0, 5)
-            ExitImage.Size = UDim2.new(0, 10, 0, 10)
-            ExitImage.Image = "rbxassetid://5054663650"
-            ExitImage.ZIndex = 10
-
-            Exit.MouseButton1Click:Connect(function()
-                FileError:Destroy()
-            end)
+            createPopup("Sorry, we have attempted to parse your save file, but it is unreadable!\n\nNigger Yield is now using factory settings until your exploit's file system works.\n\nYour save file has not been deleted.")
         else
+            nosaves = true
             useFactorySettings()
         end
-	end
+    end
 end
 
 saves()
@@ -3896,7 +3848,7 @@ SaveChatlogs.MouseButton1Down:Connect(function()
 		if #scroll_2:GetChildren() > 0 then
 			notify("Loading",'Hold on a sec')
 			local placeName = CleanFileName(MarketplaceService:GetProductInfo(PlaceId).Name)
-			local writelogs = '-- Infinite Yield Chat logs for "'..placeName..'"\n'
+			local writelogs = '-- Nigger Yield Chat logs for "'..placeName..'"\n'
 			for _, child in pairs(scroll_2:GetChildren()) do
 				writelogs = writelogs..'\n'..child.Text
 			end
@@ -4338,7 +4290,7 @@ function autoComplete(str,curText)
 end
 
 CMDs = {}
-CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the Infinite Yield support server.'}
+CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the Nigger Yield support server.'}
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Loads old Roblox console'}
 CMDs[#CMDs + 1] = {NAME = 'explorer / dex', DESC = 'Opens DEX by Moon'}
 CMDs[#CMDs + 1] = {NAME = 'olddex / odex', DESC = 'Opens Old DEX by Moon'}
@@ -4524,10 +4476,10 @@ CMDs[#CMDs + 1] = {NAME = 'fireclickdetectors / firecd [name]', DESC = 'Uses all
 CMDs[#CMDs + 1] = {NAME = 'firetouchinterests / touchinterests [name]', DESC = 'Uses all touchinterests in a game or uses the optional name'}
 CMDs[#CMDs + 1] = {NAME = 'noproximitypromptlimits / nopplimits', DESC = 'Sets all proximity prompts MaxActivationDistance to math.huge'}
 CMDs[#CMDs + 1] = {NAME = 'fireproximityprompts / firepp [name]', DESC = 'Uses all proximity prompts in a game or uses the optional name'}
+CMDs[#CMDs + 1] = {NAME = 'allseat / aseat', DESC = 'Enable all seats'}
+CMDs[#CMDs + 1] = {NAME = 'allpp / app', DESC = 'Enable all ProximityPrompts'}
 CMDs[#CMDs + 1] = {NAME = 'instantproximityprompts / instantpp', DESC = 'Disable the cooldown for proximity prompts'}
 CMDs[#CMDs + 1] = {NAME = 'uninstantproximityprompts / uninstantpp', DESC = 'Undo the cooldown removal'}
-CMDs[#CMDs + 1] = {NAME = 'allpp / allproximity', DESC = 'Enable all proximity prompt'}
-CMDs[#CMDs + 1] = {NAME = 'allseat / aseat', DESC = 'Enable all seats'}
 CMDs[#CMDs + 1] = {NAME = 'tpunanchored / tpua [player]', DESC = 'Teleports unanchored parts to a player'}
 CMDs[#CMDs + 1] = {NAME = 'animsunanchored / freezeua', DESC = 'Freezes unanchored parts'}
 CMDs[#CMDs + 1] = {NAME = 'thawunanchored / thawua / unfreezeua', DESC = 'Thaws unanchored parts'}
@@ -4591,6 +4543,8 @@ CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
 CMDs[#CMDs + 1] = {NAME = 'flyfling', DESC = 'Basically the invisfling command but not invisible'}
 CMDs[#CMDs + 1] = {NAME = 'unflyfling', DESC = 'Disables the flyfling command'}
+CMDs[#CMDs + 1] = {NAME = 'walkfling', DESC = 'Basically fling but no spinning'}
+CMDs[#CMDs + 1] = {NAME = 'unwalkfling / nowalkfling', DESC = 'Disables walkfling'}
 CMDs[#CMDs + 1] = {NAME = 'invisfling', DESC = 'Enables invisible fling'}
 CMDs[#CMDs + 1] = {NAME = 'antifling', DESC = 'Disables player collisions to prevent you from being flung'}
 CMDs[#CMDs + 1] = {NAME = 'unantifling', DESC = 'Disables antifling'}
@@ -4684,6 +4638,7 @@ CMDs[#CMDs + 1] = {NAME = 'noanim', DESC = 'Disables your animations'}
 CMDs[#CMDs + 1] = {NAME = 'reanim', DESC = 'Restores your animations'}
 CMDs[#CMDs + 1] = {NAME = 'animspeed [num]', DESC = 'Changes the speed of your current animation'}
 CMDs[#CMDs + 1] = {NAME = 'copyanimation / copyanim / copyemote [player]', DESC = 'Copies someone elses animation'}
+CMDs[#CMDs + 1] = {NAME = 'copyanimationid / copyanimid / copyemoteid [player]', DESC = 'Copies your animation id or someone elses to your clipboard'}
 CMDs[#CMDs + 1] = {NAME = 'loopanimation / loopanim', DESC = 'Loops your current animation'}
 CMDs[#CMDs + 1] = {NAME = 'stopanimations / stopanims', DESC = 'Stops running animations'}
 CMDs[#CMDs + 1] = {NAME = 'refreshanimations / refreshanims', DESC = 'Refreshes animations'}
@@ -9815,6 +9770,41 @@ addcmd('copyanimation',{'copyanim','copyemote'},function(args, speaker)
 	end
 end)
 
+addcmd("copyanimationid", {"copyanimid", "copyemoteid"}, function(args, speaker)
+    local copyAnimId = function(player)
+        local found = "Animations Copied"
+
+        for _, v in pairs(player.Character:FindFirstChildWhichIsA("Humanoid"):GetPlayingAnimationTracks()) do
+            local animationId = v.Animation.AnimationId
+            local assetId = animationId:find("rbxassetid://") and animationId:match("%d+")
+
+            if not string.find(animationId, "507768375") and not string.find(animationId, "180435571") then
+                if assetId then
+                    local success, result = pcall(function()
+                        return MarketplaceService:GetProductInfo(tonumber(assetId)).Name
+                    end)
+                    local name = success and result or "Failed to get name"
+                    found = found .. "\n\nName: " .. name .. "\nAnimation Id: " .. animationId
+                else
+                    found = found .. "\n\nAnimation Id: " .. animationId
+                end
+            end
+        end
+
+        if found ~= "Animations Copied" then
+            toClipboard(found)
+        else
+            notify("Animations", "No animations to copy")
+        end
+    end
+
+    if args[1] then
+        copyAnimId(Players[getPlayer(args[1], speaker)[1]])
+    else
+        copyAnimId(speaker)
+    end
+end)
+
 addcmd('stopanimations',{'stopanims','stopanim'},function(args, speaker)
 	local Char = speaker.Character
 	local Hum = Char:FindFirstChildOfClass("Humanoid") or Char:FindFirstChildOfClass("AnimationController")
@@ -9858,7 +9848,7 @@ end)
 
 addcmd('tpposition',{'tppos'},function(args, speaker)
 	if #args < 3 then return end
-	local tpX,tpY,tpZ = tonumber(args[1]),tonumber(args[2]),tonumber(args[3])
+	local tpX,tpY,tpZ = tonumber((args[1]:gsub(",", ""))),tonumber((args[2]:gsub(",", ""))),tonumber((args[3]:gsub(",", "")))
 	local char = speaker.Character
 	if char and getRoot(char) then
 		getRoot(char).CFrame = CFrame.new(tpX,tpY,tpZ)
@@ -9867,7 +9857,7 @@ end)
 
 addcmd('tweentpposition',{'ttppos'},function(args, speaker)
 	if #args < 3 then return end
-	local tpX,tpY,tpZ = tonumber(args[1]),tonumber(args[2]),tonumber(args[3])
+	local tpX,tpY,tpZ = tonumber((args[1]:gsub(",", ""))),tonumber((args[2]:gsub(",", ""))),tonumber((args[3]:gsub(",", "")))
 	local char = speaker.Character
 	if char and getRoot(char) then
 		TweenService:Create(getRoot(speaker.Character), TweenInfo.new(tweenSpeed, Enum.EasingStyle.Linear), {CFrame = CFrame.new(tpX,tpY,tpZ)}):Play()
@@ -10439,9 +10429,7 @@ addcmd("bang", {"rape"}, function(args, speaker)
 	wait()
 	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
 	bangAnim = Instance.new("Animation")
-	--bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
-	bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://18104991228"
-
+	bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
 	bang = humanoid:LoadAnimation(bangAnim)
 	bang:Play(0.1, 1, 1)
 	bang:AdjustSpeed(args[2] or 3)
@@ -10665,6 +10653,23 @@ addcmd('noproximitypromptlimits',{'nopplimits','removepplimits'},function(args, 
 	end
 end)
 
+addcmd('allseat',{'aseat'},function(args, speaker)
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v:IsA("Seat") or v:IsA("VehicleSeat") then
+		 v.Disabled = false
+print("All Seat Enabled")
+ end
+end
+end)
+
+addcmd('app',{'allproximity'},function(args, speaker)
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v:IsA("ProximityPrompt") then
+			v.Enabled = true
+		end
+	end
+end)
+
 addcmd('fireproximityprompts',{'firepp'},function(args, speaker)
 	if fireclickdetector then
 		if args[1] then
@@ -10690,11 +10695,10 @@ local PromptButtonHoldBegan = nil
 addcmd('instantproximityprompts',{'instantpp'},function(args, speaker)
 	if fireproximityprompt then
 		execCmd("uninstantproximityprompts")
-		for i,v in ipairs(game:GetService("Workspace"):GetDescendants()) do
- if v.ClassName == "ProximityPrompt" then
-  v.HoldDuration = 0
- end
-end
+		wait(0.1)
+		PromptButtonHoldBegan = ProximityPromptService.PromptButtonHoldBegan:Connect(function(prompt)
+			fireproximityprompt(prompt)
+		end)
 	else
 		notify('Incompatible Exploit','Your exploit does not support this command (missing fireproximityprompt)')
 	end
@@ -10706,30 +10710,6 @@ addcmd('uninstantproximityprompts',{'uninstantpp'},function(args, speaker)
 		PromptButtonHoldBegan = nil
 	end
 end)
-
-addcmd('allproximity',{'allpp'},function(args, speaker)
-	if fireproximityprompt then
-		execCmd("uninstantproximityprompts")
-		for i,v in ipairs(game:GetService("Workspace"):GetDescendants()) do
- if v.ClassName == "ProximityPrompt" then
-  v.Enabled = true
-print("All Proximity Enabled")
- end
-end
-	else
-		notify('Incompatible Exploit','Your exploit does not support this command (missing fireproximityprompt)')
-	end
-end)
-
-addcmd('allseat',{'aseat'},function(args, speaker)
-	for i,v in ipairs(game:GetService("Workspace"):GetDescendants()) do
-		if v.ClassName == "Seat" then
-		 v.Disabled = false
-print("All Seat Enabled")
- end
-end
-end)
-
 
 addcmd('notifyping',{'ping'},function(args, speaker)
 	notify("Ping", math.round(speaker:GetNetworkPing() * 1000) .. "ms")
@@ -11486,6 +11466,54 @@ end)
 
 addcmd("toggleflyfling", {}, function(args, speaker)
     execCmd(flinging and "unflyfling" or "flyfling")
+end)
+
+walkflinging = false
+addcmd("walkfling", {}, function(args, speaker)
+    execCmd("unwalkfling")
+    local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+    if humanoid then
+        humanoid.Died:Connect(function()
+            execCmd("unwalkfling")
+        end)
+    end
+
+    execCmd("noclip")
+    walkflinging = true
+    repeat RunService.Heartbeat:Wait()
+        local character = speaker.Character
+        local root = getRoot(character)
+        local vel, movel = nil, 0.1
+
+        while not (character and character.Parent and root and root.Parent) do
+            RunService.Heartbeat:Wait()
+            character = speaker.Character
+            root = getRoot(character)
+        end
+
+        vel = root.Velocity
+        root.Velocity = vel * 1000000 + Vector3.new(0, 1000000, 0)
+
+        RunService.RenderStepped:Wait()
+        if character and character.Parent and root and root.Parent then
+            root.Velocity = vel
+        end
+
+        RunService.Stepped:Wait()
+        if character and character.Parent and root and root.Parent then
+            root.Velocity = vel + Vector3.new(0, movel, 0)
+            movel = movel * -1
+        end
+    until walkflinging == false
+end)
+
+addcmd("unwalkfling", {"nowalkfling"}, function(args, speaker)
+    walkflinging = false
+    execCmd("unnoclip")
+end)
+
+addcmd("togglewalkfling", {}, function(args, speaker)
+    execCmd(walkflinging and "unwalkfling" or "walkfling")
 end)
 
 addcmd('invisfling',{},function(args, speaker)
@@ -12639,5 +12667,5 @@ task.spawn(function()
 	Credits:Destroy()
 	IntroBackground:Destroy()
 	minimizeHolder()
-	if IsOnMobile then notify("Unstable Device", "On mobile, Infinite Yield may have issues or features that are not functioning correctly.") end
+	if IsOnMobile then notify("Unstable Device", "On mobile, Nigger Yield may have issues or features that are not functioning correctly.") end
 end)
